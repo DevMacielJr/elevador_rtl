@@ -1,0 +1,185 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity elevador_rtl is
+    Port (
+        clk               : in  std_logic;
+        reset             : in  std_logic;
+        botoes_internos   : in  std_logic_vector(2 downto 0); -- Botões internos: andar 0 a 2
+        botoes_externos   : in  std_logic_vector(2 downto 0); -- Botões externos: andar 0 a 2
+        sensor_andar      : in  std_logic_vector(1 downto 0); -- 00, 01, 10 (andars 0 a 2), "11" inválido
+        mostrador_7seg    : out std_logic_vector(6 downto 0);
+        leds_direcao      : out std_logic_vector(1 downto 0); -- 01 = sobe, 10 = desce
+        led_porta_aberta  : out std_logic
+    );
+end elevador_rtl;
+
+architecture RTL of elevador_rtl is
+
+    type tipo_estado is (S_PARADO, S_SUBINDO, S_DESCENDO, S_PORTA_ABERTA);
+    signal estado_atual, proximo_estado : tipo_estado;
+
+    signal andar_atual      : integer range 0 to 2;
+    signal andar_destino    : integer range 0 to 2 := 0;
+    signal chamada_pendente : std_logic := '0';  -- Indica se há alguma chamada ativa
+    signal contador_porta   : integer := 0;
+
+    constant TEMPO_PORTA : integer := 5000000;
+
+    type tipo_direcao is (PARADO, SUBINDO, DESCENDO);
+    signal direcao : tipo_direcao;
+
+    -- Decodificador simples para display (apenas 3 andares)
+    function decodifica_7seg(valor: integer) return std_logic_vector is
+        variable seg : std_logic_vector(6 downto 0);
+    begin
+        case valor is
+            when 0 => seg := "1000000"; -- Display 7-seg: mostra "0"
+            when 1 => seg := "1111001"; -- mostra "1"
+            when 2 => seg := "0100100"; -- mostra "2"
+            when others => seg := "1111111"; -- apaga display (erro)
+        end case;
+        return seg;
+    end;
+
+begin
+
+    -- Atualiza andar atual com sensor (com tratamento explícito para valor inválido "11")
+    process(clk)
+    begin
+        if rising_edge(clk) then
+            if reset = '1' then
+                andar_atual <= 0;
+            else
+                case sensor_andar is
+                    when "00" => andar_atual <= 0;
+                    when "01" => andar_atual <= 1;
+                    when "10" => andar_atual <= 2;
+                    when others => 
+                        -- Condição inválida no sensor, mantém andar atual (pode ser melhorado para flag de erro)
+                        andar_atual <= andar_atual;
+                end case;
+            end if;
+        end if;
+    end process;
+
+    -----------------------------------------------------------------------------
+    -- Codificador de chamada com prioridade
+    -- Prioridade das chamadas: o botão com índice menor tem prioridade maior
+    -- Exemplo: andar 0 tem prioridade maior que andar 1, que tem prioridade maior que andar 2
+    -- Primeiro verifica botoes_internos, depois botoes_externos
+    -----------------------------------------------------------------------------
+    process(all)
+    begin
+        chamada_pendente <= '0';
+        andar_destino <= andar_destino; -- Mantém valor anterior caso nenhuma chamada ativa
+
+        -- Prioridade por índice: 0, 1, 2
+        if botoes_internos(0) = '1' then
+            andar_destino <= 0;
+            chamada_pendente <= '1';
+        elsif botoes_internos(1) = '1' then
+            andar_destino <= 1;
+            chamada_pendente <= '1';
+        elsif botoes_internos(2) = '1' then
+            andar_destino <= 2;
+            chamada_pendente <= '1';
+
+        elsif botoes_externos(0) = '1' then
+            andar_destino <= 0;
+            chamada_pendente <= '1';
+        elsif botoes_externos(1) = '1' then
+            andar_destino <= 1;
+            chamada_pendente <= '1';
+        elsif botoes_externos(2) = '1' then
+            andar_destino <= 2;
+            chamada_pendente <= '1';
+        end if;
+    end process;
+
+    -----------------------------------------------------------------------------
+    -- FSM: lógica de próximo estado
+    -----------------------------------------------------------------------------
+    process(all)
+    begin
+        case estado_atual is
+            when S_PARADO =>
+                if chamada_pendente = '1' then
+                    if andar_destino = andar_atual then
+                        proximo_estado <= S_PORTA_ABERTA;
+                    elsif andar_destino > andar_atual then
+                        proximo_estado <= S_SUBINDO;
+                    else
+                        proximo_estado <= S_DESCENDO;
+                    end if;
+                else
+                    proximo_estado <= S_PARADO;
+                end if;
+
+            when S_SUBINDO =>
+                if andar_atual = andar_destino then
+                    proximo_estado <= S_PORTA_ABERTA;
+                else
+                    proximo_estado <= S_SUBINDO;
+                end if;
+
+            when S_DESCENDO =>
+                if andar_atual = andar_destino then
+                    proximo_estado <= S_PORTA_ABERTA;
+                else
+                    proximo_estado <= S_DESCENDO;
+                end if;
+
+            when S_PORTA_ABERTA =>
+                if contador_porta >= TEMPO_PORTA then
+                    proximo_estado <= S_PARADO;
+                else
+                    proximo_estado <= S_PORTA_ABERTA;
+                end if;
+        end case;
+    end process;
+
+    -----------------------------------------------------------------------------
+    -- FSM: registrador de estado + contador da porta
+    -----------------------------------------------------------------------------
+    process(clk)
+    begin
+        if rising_edge(clk) then
+            if reset = '1' then
+                estado_atual <= S_PARADO;
+                contador_porta <= 0;
+            else
+                estado_atual <= proximo_estado;
+
+                if estado_atual /= S_PORTA_ABERTA then
+                    contador_porta <= 0;
+                elsif contador_porta < TEMPO_PORTA then
+                    contador_porta <= contador_porta + 1;
+                end if;
+            end if;
+        end if;
+    end process;
+
+    -----------------------------------------------------------------------------
+    -- Saídas
+    -----------------------------------------------------------------------------
+    mostrador_7seg <= decodifica_7seg(andar_atual);
+    led_porta_aberta <= '1' when estado_atual = S_PORTA_ABERTA else '0';
+
+    -----------------------------------------------------------------------------
+    -- Direção
+    -----------------------------------------------------------------------------
+    process(estado_atual)
+    begin
+        case estado_atual is
+            when S_SUBINDO =>
+                leds_direcao <= "01";
+            when S_DESCENDO =>
+                leds_direcao <= "10";
+            when others =>
+                leds_direcao <= "00";
+        end case;
+    end process;
+
+end architecture;

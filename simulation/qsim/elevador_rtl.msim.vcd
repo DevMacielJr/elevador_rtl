@@ -1,0 +1,481 @@
+$comment
+	File created using the following command:
+		vcd file elevador_rtl.msim.vcd -direction
+$end
+$date
+	Sun Jul 06 01:23:16 2025
+$end
+$version
+	ModelSim Version 10.1d
+$end
+$timescale
+	1ps
+$end
+$scope module elevador_rtl_vlg_vec_tst $end
+$var reg 3 ! botoes_externos [2:0] $end
+$var reg 3 " botoes_internos [2:0] $end
+$var reg 1 # clk $end
+$var reg 1 $ reset $end
+$var reg 2 % sensor_andar [1:0] $end
+$var wire 1 & led_porta_aberta $end
+$var wire 1 ' leds_direcao [1] $end
+$var wire 1 ( leds_direcao [0] $end
+$var wire 1 ) mostrador_7seg [6] $end
+$var wire 1 * mostrador_7seg [5] $end
+$var wire 1 + mostrador_7seg [4] $end
+$var wire 1 , mostrador_7seg [3] $end
+$var wire 1 - mostrador_7seg [2] $end
+$var wire 1 . mostrador_7seg [1] $end
+$var wire 1 / mostrador_7seg [0] $end
+$var wire 1 0 sampler $end
+$scope module i1 $end
+$var wire 1 1 gnd $end
+$var wire 1 2 vcc $end
+$var wire 1 3 unknown $end
+$var tri1 1 4 devclrn $end
+$var tri1 1 5 devpor $end
+$var tri1 1 6 devoe $end
+$var wire 1 7 contador_porta[3]~41_combout $end
+$var wire 1 8 contador_porta[5]~45_combout $end
+$var wire 1 9 contador_porta[7]~49_combout $end
+$var wire 1 : contador_porta[10]~55_combout $end
+$var wire 1 ; contador_porta[12]~59_combout $end
+$var wire 1 < contador_porta[19]~73_combout $end
+$var wire 1 = contador_porta[21]~77_combout $end
+$var wire 1 > contador_porta[22]~79_combout $end
+$var wire 1 ? estado_atual~10_combout $end
+$var wire 1 @ LessThan1~8_combout $end
+$var wire 1 A andar_destino[0]~0_combout $end
+$var wire 1 B comb~4_combout $end
+$var wire 1 C comb~5_combout $end
+$var wire 1 D comb~7_combout $end
+$var wire 1 E clk~combout $end
+$var wire 1 F clk~clkctrl_outclk $end
+$var wire 1 G reset~combout $end
+$var wire 1 H andar_atual~0_combout $end
+$var wire 1 I andar_atual[0]~1_combout $end
+$var wire 1 J andar_atual[0]~2_combout $end
+$var wire 1 K Mux3~0_combout $end
+$var wire 1 L Mux3~1_combout $end
+$var wire 1 M Mux2~0_combout $end
+$var wire 1 N estado_atual~8_combout $end
+$var wire 1 O chamada_pendente~0_combout $end
+$var wire 1 P chamada_pendente~1_combout $end
+$var wire 1 Q estado_atual~14_combout $end
+$var wire 1 R contador_porta[0]~35_combout $end
+$var wire 1 S estado_atual~12_combout $end
+$var wire 1 T estado_atual.S_DESCENDO~regout $end
+$var wire 1 U andar_destino[1]~1_combout $end
+$var wire 1 V andar_destino[1]~2_combout $end
+$var wire 1 W comb~6_combout $end
+$var wire 1 X Equal1~0_combout $end
+$var wire 1 Y estado_atual~13_combout $end
+$var wire 1 Z estado_atual~16_combout $end
+$var wire 1 [ estado_atual.S_PORTA_ABERTA~regout $end
+$var wire 1 \ contador_porta[29]~34_combout $end
+$var wire 1 ] contador_porta[29]~99_combout $end
+$var wire 1 ^ contador_porta[0]~36 $end
+$var wire 1 _ contador_porta[1]~37_combout $end
+$var wire 1 ` contador_porta[1]~38 $end
+$var wire 1 a contador_porta[2]~39_combout $end
+$var wire 1 b contador_porta[2]~40 $end
+$var wire 1 c contador_porta[3]~42 $end
+$var wire 1 d contador_porta[4]~43_combout $end
+$var wire 1 e contador_porta[4]~44 $end
+$var wire 1 f contador_porta[5]~46 $end
+$var wire 1 g contador_porta[6]~48 $end
+$var wire 1 h contador_porta[7]~50 $end
+$var wire 1 i contador_porta[8]~51_combout $end
+$var wire 1 j contador_porta[8]~52 $end
+$var wire 1 k contador_porta[9]~53_combout $end
+$var wire 1 l contador_porta[9]~54 $end
+$var wire 1 m contador_porta[10]~56 $end
+$var wire 1 n contador_porta[11]~57_combout $end
+$var wire 1 o contador_porta[11]~58 $end
+$var wire 1 p contador_porta[12]~60 $end
+$var wire 1 q contador_porta[13]~61_combout $end
+$var wire 1 r contador_porta[13]~62 $end
+$var wire 1 s contador_porta[14]~63_combout $end
+$var wire 1 t contador_porta[14]~64 $end
+$var wire 1 u contador_porta[15]~65_combout $end
+$var wire 1 v contador_porta[15]~66 $end
+$var wire 1 w contador_porta[16]~67_combout $end
+$var wire 1 x contador_porta[16]~68 $end
+$var wire 1 y contador_porta[17]~70 $end
+$var wire 1 z contador_porta[18]~71_combout $end
+$var wire 1 { contador_porta[18]~72 $end
+$var wire 1 | contador_porta[19]~74 $end
+$var wire 1 } contador_porta[20]~75_combout $end
+$var wire 1 ~ contador_porta[20]~76 $end
+$var wire 1 !! contador_porta[21]~78 $end
+$var wire 1 "! contador_porta[22]~80 $end
+$var wire 1 #! contador_porta[23]~82 $end
+$var wire 1 $! contador_porta[24]~83_combout $end
+$var wire 1 %! contador_porta[24]~84 $end
+$var wire 1 &! contador_porta[25]~85_combout $end
+$var wire 1 '! contador_porta[25]~86 $end
+$var wire 1 (! contador_porta[26]~88 $end
+$var wire 1 )! contador_porta[27]~89_combout $end
+$var wire 1 *! contador_porta[27]~90 $end
+$var wire 1 +! contador_porta[28]~92 $end
+$var wire 1 ,! contador_porta[29]~93_combout $end
+$var wire 1 -! contador_porta[29]~94 $end
+$var wire 1 .! contador_porta[30]~95_combout $end
+$var wire 1 /! contador_porta[30]~96 $end
+$var wire 1 0! contador_porta[31]~97_combout $end
+$var wire 1 1! contador_porta[28]~91_combout $end
+$var wire 1 2! LessThan1~1_combout $end
+$var wire 1 3! contador_porta[23]~81_combout $end
+$var wire 1 4! contador_porta[26]~87_combout $end
+$var wire 1 5! LessThan1~0_combout $end
+$var wire 1 6! LessThan1~2_combout $end
+$var wire 1 7! LessThan1~3_combout $end
+$var wire 1 8! contador_porta[17]~69_combout $end
+$var wire 1 9! LessThan1~4_combout $end
+$var wire 1 :! contador_porta[6]~47_combout $end
+$var wire 1 ;! LessThan1~5_combout $end
+$var wire 1 <! LessThan1~6_combout $end
+$var wire 1 =! LessThan1~7_combout $end
+$var wire 1 >! LessThan1~9_combout $end
+$var wire 1 ?! estado_atual~15_combout $end
+$var wire 1 @! estado_atual.S_PARADO~regout $end
+$var wire 1 A! estado_atual~9_combout $end
+$var wire 1 B! estado_atual~11_combout $end
+$var wire 1 C! estado_atual.S_SUBINDO~regout $end
+$var wire 1 D! botoes_externos~combout [2] $end
+$var wire 1 E! botoes_externos~combout [1] $end
+$var wire 1 F! botoes_externos~combout [0] $end
+$var wire 1 G! botoes_internos~combout [2] $end
+$var wire 1 H! botoes_internos~combout [1] $end
+$var wire 1 I! botoes_internos~combout [0] $end
+$var wire 1 J! andar_atual [1] $end
+$var wire 1 K! andar_atual [0] $end
+$var wire 1 L! sensor_andar~combout [1] $end
+$var wire 1 M! sensor_andar~combout [0] $end
+$var wire 1 N! contador_porta [31] $end
+$var wire 1 O! contador_porta [30] $end
+$var wire 1 P! contador_porta [29] $end
+$var wire 1 Q! contador_porta [28] $end
+$var wire 1 R! contador_porta [27] $end
+$var wire 1 S! contador_porta [26] $end
+$var wire 1 T! contador_porta [25] $end
+$var wire 1 U! contador_porta [24] $end
+$var wire 1 V! contador_porta [23] $end
+$var wire 1 W! contador_porta [22] $end
+$var wire 1 X! contador_porta [21] $end
+$var wire 1 Y! contador_porta [20] $end
+$var wire 1 Z! contador_porta [19] $end
+$var wire 1 [! contador_porta [18] $end
+$var wire 1 \! contador_porta [17] $end
+$var wire 1 ]! contador_porta [16] $end
+$var wire 1 ^! contador_porta [15] $end
+$var wire 1 _! contador_porta [14] $end
+$var wire 1 `! contador_porta [13] $end
+$var wire 1 a! contador_porta [12] $end
+$var wire 1 b! contador_porta [11] $end
+$var wire 1 c! contador_porta [10] $end
+$var wire 1 d! contador_porta [9] $end
+$var wire 1 e! contador_porta [8] $end
+$var wire 1 f! contador_porta [7] $end
+$var wire 1 g! contador_porta [6] $end
+$var wire 1 h! contador_porta [5] $end
+$var wire 1 i! contador_porta [4] $end
+$var wire 1 j! contador_porta [3] $end
+$var wire 1 k! contador_porta [2] $end
+$var wire 1 l! contador_porta [1] $end
+$var wire 1 m! contador_porta [0] $end
+$var wire 1 n! andar_destino [1] $end
+$var wire 1 o! andar_destino [0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b1 !
+b10 "
+0#
+1$
+b10 %
+0&
+0(
+0'
+0/
+0.
+0-
+0,
+0+
+0*
+1)
+x0
+01
+12
+x3
+14
+15
+16
+07
+08
+09
+0:
+0;
+0<
+0=
+0>
+0?
+1@
+1A
+0B
+1C
+0D
+0E
+0F
+1G
+0H
+1I
+0J
+0K
+0L
+1M
+0N
+1O
+0P
+1Q
+1R
+0S
+0T
+0U
+0V
+1W
+1X
+0Y
+0Z
+0[
+1\
+1]
+0^
+0_
+1`
+0a
+0b
+1c
+0d
+0e
+1f
+0g
+1h
+0i
+0j
+0k
+1l
+0m
+0n
+1o
+0p
+0q
+1r
+0s
+0t
+0u
+1v
+0w
+0x
+1y
+0z
+0{
+1|
+0}
+0~
+1!!
+0"!
+1#!
+0$!
+0%!
+0&!
+1'!
+0(!
+0)!
+1*!
+0+!
+0,!
+1-!
+0.!
+0/!
+00!
+01!
+12!
+03!
+04!
+15!
+16!
+17!
+08!
+09!
+0:!
+1;!
+0<!
+1=!
+1>!
+0?!
+0@!
+1A!
+0B!
+0C!
+1F!
+0E!
+0D!
+0I!
+1H!
+0G!
+0K!
+0J!
+0M!
+1L!
+0m!
+0l!
+0k!
+0j!
+0i!
+0h!
+0g!
+0f!
+0e!
+0d!
+0c!
+0b!
+0a!
+0`!
+0_!
+0^!
+0]!
+0\!
+0[!
+0Z!
+0Y!
+0X!
+0W!
+0V!
+0U!
+0T!
+0S!
+0R!
+0Q!
+0P!
+0O!
+0N!
+1o!
+0n!
+$end
+#50000
+1#
+1E
+1F
+00
+#100000
+0$
+0#
+0G
+0E
+0F
+10
+0Q
+1N
+1J
+1?!
+1B!
+#150000
+1#
+1E
+1F
+00
+1C!
+1@!
+1J!
+0A!
+0M
+1L
+1?
+1(
+1-
+0)
+1*
+#200000
+0#
+0E
+0F
+10
+#250000
+1#
+1E
+1F
+00
+#300000
+0#
+0E
+0F
+10
+#350000
+1#
+1E
+1F
+00
+#400000
+0#
+0E
+0F
+10
+#450000
+1#
+1E
+1F
+00
+#500000
+0#
+0E
+0F
+10
+#550000
+1#
+1E
+1F
+00
+#600000
+0#
+0E
+0F
+10
+#650000
+1#
+1E
+1F
+00
+#700000
+0#
+0E
+0F
+10
+#750000
+1#
+1E
+1F
+00
+#800000
+0#
+0E
+0F
+10
+#850000
+1#
+1E
+1F
+00
+#900000
+0#
+0E
+0F
+10
+#950000
+1#
+1E
+1F
+00
+#1000000
